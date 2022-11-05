@@ -1,8 +1,7 @@
 <?php
 
 namespace TypeRocket\Core;
-
-
+use  \App\Controllers\PluginController;
 
 /**
  * Plugin Name: Easy Videos
@@ -67,3 +66,7 @@ if (! EASY_VIDEOS_SKIP_INIT) {
     ApplicationKernel::init();
 }
 
+
+// Start Plugin
+$pluginController = new PluginController();
+$pluginController->createPostType();
