@@ -9,6 +9,7 @@ class VideoController extends WPPostController
 {
     
     protected $video = null;
+    protected $tablePrefix = null;
 
     /**
      * Constructor
@@ -16,6 +17,10 @@ class VideoController extends WPPostController
 
     public function __construct(){
         $this->video = new Video();
+
+        // Get Database table Prefix
+        global $wpdb;
+        $this->tablePrefix = $wpdb->prefix;
     }
 
     /**
@@ -26,7 +31,7 @@ class VideoController extends WPPostController
     public function save($video)
     {
         $currentDate = date('Y-m-d h:i:s');
-        $query = tr_query()->table('wp_posts');
+        $query = tr_query()->table($this->tablePrefix.'posts');
         $post_ID = $query->setIdColumn('ID')->create([
             'post_content' => $video['description'],
             'post_title' => $video['title'],
@@ -53,7 +58,7 @@ class VideoController extends WPPostController
 
         $metaObject = 'a:4:{s:13:"video_picture";s:'.strlen($video_picture).':"'.$video_picture.'";s:8:"video_id";s:'.strlen($video_id).':"'.$video_id.'";s:12:"published_at";s:'.strlen($publishedAt).':"'.$publishedAt.'";s:12:"channel_name";s:'.strlen($publishedAt).':"'.$publishedAt.'";}';
 
-        $query = tr_query()->table('wp_postmeta');
+        $query = tr_query()->table($this->tablePrefix.'postmeta');
         $meta_ID = $query->setIdColumn('meta_id')->create([
             'post_id' => $post_ID,
             'meta_key' => 'details',

@@ -22,7 +22,24 @@ use  \App\Controllers\PluginController;
  // Define EASY_VIDEOS_PATH
 define('EASY_VIDEOS_PATH', __DIR__);
 
+// Start Check if Plugin is active
 
+if(!file_exists( realpath(dirname(realpath(__DIR__)).'/typerocket-v5/typerocket-v5.php'))){
+    // Rocket not installed
+    global $pagenow;
+	$admin_pages = [ 'index.php', 'plugins.php' ];
+    if ( in_array( $pagenow, $admin_pages ) ) {
+            echo '
+            <div class="notice notice-error is-dismissible">
+                <p>To use Easy Videos Plugins , You must install and activate <a href="https://typerocket.com/downloads/v5.zip">TypeRocket v5 Plugin</a>  , Please Check <a href="https://typerocket.com/docs/v5/install-via-plugin/" target="_blanc">Documentation</a></p>
+            </div>
+            ';
+    }
+    return;
+}
+// End Check if Plugin is active
+    
+// Define Constants
 if(!defined('EASY_VIDEOS_RESOURCES_PATH')){
     define('EASY_VIDEOS_RESOURCES_PATH', EASY_VIDEOS_PATH.'/resources/view');
 }
@@ -51,6 +68,8 @@ if (!defined('EASY_VIDEOS_AUTO_LOADER')) {
     call_user_func(EASY_VIDEOS_AUTO_LOADER);
 }
 
+
+
 // Run app autoloader
 $tr_autoload_map = EASY_VIDEOS_AUTOLOAD_APP;
 ApplicationKernel::autoloadPsr4($tr_autoload_map);
@@ -64,15 +83,13 @@ if (! defined('EASY_VIDEOS_SKIP_INIT')) {
     define('EASY_VIDEOS_SKIP_INIT', false);
 }
 
+define('TYPEROCKET_CORE_CONFIG_PATH',__DIR__. '/config' );
+
+// Start Plugin
+
 if (! EASY_VIDEOS_SKIP_INIT) {
     ApplicationKernel::init();
 }
 
-
-define('TYPEROCKET_CORE_CONFIG_PATH',__DIR__. '/config' );
-
-
-
-// Start Plugin
 $pluginController = new PluginController();
 $pluginController->createPostType();
