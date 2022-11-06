@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 use \App\Controllers\YoutubeController;
+use \App\Controllers\VideoController;
 use App\Traits\ViewTrait;
 
 
@@ -25,6 +26,9 @@ class PluginController
 
     public function createAdminPage()
     {
+
+
+
 
         $returnArray = ['step' => 'default'];
 
@@ -60,8 +64,11 @@ class PluginController
             if($youtubeIds ){
                 $videosImported = $this->youtubeController->getVideoChoosedList($youtubeIds); // Return video detail list from API
 
+                // Data will be saved here
 
-                // Data will be savd here
+                foreach ($videosImported as $video){
+                    $this->videoController->save($video);
+                }
                 
             } 
         } 
@@ -82,7 +89,7 @@ class PluginController
                     ->setEditorForm(function(){
                         $form = tr_form()->setGroup('details');
                         echo $form->image('Video Picture');
-                        echo $form->text('Video Url');
+                        echo $form->text('Video Id');
                         echo $form->text('published At');
                         echo $form->text('channel Name');
                     });
