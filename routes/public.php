@@ -1,5 +1,6 @@
 <?php
 
+use \App\Controllers\VideoController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,4 +12,14 @@
 |
 */
 
-// tr_route()->match('video')
+
+
+tr_route()->get()->on('video/*', function($arg) {  
+    $video = new VideoController();
+    return $video->renderPage($arg);
+});
+
+tr_route()->get()->on('video', function() {  
+    $video = new VideoController();
+    return $video->renderPage();
+});

@@ -10,6 +10,9 @@ class VideoController extends WPPostController
     
     protected $video = null;
 
+    /**
+     * Constructor
+     */
 
     public function __construct(){
         $this->video = new Video();
@@ -62,4 +65,22 @@ class VideoController extends WPPostController
     }
 
     
+    public function renderPage(string $slug = null)
+    {
+        $view = 'single.videos';
+        $args = array(
+        'post_type'   => 'video',
+        'post_status' => 'publish',
+        );
+
+        if($slug){
+            $args['name'] = $slug;
+            $args['numberposts'] = 1;
+            $view = 'single.video';
+        }
+
+        $my_posts = get_posts($args);
+
+        return tr_view($view , ['posts' => $my_posts]);
+    }
 }
