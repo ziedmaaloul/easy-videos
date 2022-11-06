@@ -15,7 +15,7 @@ class YoutubeController
     public function __construct(){
         $this->client = new Client();
         $this->client->setApplicationName("Youtube_Importer");
-        $this->client->setDeveloperKey("xxxxxxxxxxxxxxx");
+        $this->client->setDeveloperKey("AIzaSyBAQu9nDuLhgPdmxTmtpZzyrLqil5OxfkI");
         $this->service = new Youtube($this->client);
     }
 
@@ -26,7 +26,7 @@ class YoutubeController
      * @return array
      */
 
-    private function constructData($searchResult){
+    private function constructData($searchResult , $searchList = 0){
 
         if(!$searchResult){
             return [];
@@ -34,11 +34,22 @@ class YoutubeController
 
         $resultList = [];
 
+        $kindOperator = null;
+
+
         foreach ($searchResult->getItems() as $item) {
             $itemId = $item->id; // Get Item ID
             $itemSnippet = $item->snippet; // Get Item Snippet
-            if($itemId && $itemId->kind == 'youtube#video'){ // Be sure that this result is Video
-                $resultList[] = ['videoId' => $itemId->videoId , 'description' => $itemSnippet->description , 'publishedAt' => $itemSnippet->publishedAt,
+
+            if ($searchList) {
+                $kindOperator = $item->kind;
+            } else {
+                $kindOperator = $itemId->kind;
+            }
+
+    
+            if($itemId && $kindOperator == 'youtube#video'){ // Be sure that this result is Video
+                $resultList[] = ['videoId' => $searchList ? $itemId : $itemId->videoId , 'description' => $itemSnippet->description , 'publishedAt' => $itemSnippet->publishedAt,
                                 'title' => $itemSnippet->title , 'thumbnails' => $itemSnippet->thumbnails->medium->url
                 ];
             }
@@ -84,9 +95,8 @@ class YoutubeController
             //   'channelId'=> $query
         ];
 
-        $resultList = [];
+        $searchResult =  $this->service->videos->listVideos('', $optParams);
 
-
-        return $this->constructData($searchResult);
+        return $this->constructData($searchResult  , 1);
     }
 }
