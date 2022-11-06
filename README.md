@@ -22,14 +22,15 @@
 - Fetch Videos
 - Save Each video as post type
 - Add Admin Page for Youtube video Importing
+- Add Style
+- Support Link in Search Box
+- Fetch Youtube Search from channel / User
+- Display Video on table by Title , picture and description +  Style
 
 
 ## Enhancement
 
 - Check If Framework is installed
-- Support Link Or channel Id or channel Name in Search Box
-- Add Style
-- Display Video on table by Title , picture and description +  Style
 - Save API key in safe place
 - Try to Save Post Type using Model
 - Use Dynamic Prefix
@@ -37,7 +38,6 @@
 
 ## Waiting Tasks
 
-- Fetch Youtube Search from channel / User
 - Display Post on Frontend
 
 

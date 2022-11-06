@@ -19,6 +19,16 @@ class YoutubeController
         $this->service = new Youtube($this->client);
     }
 
+    public function parseChannelId(string $url) {
+
+        $html = file_get_contents($url);
+        preg_match("'<meta itemprop=\"channelId\" content=\"(.*?)\"'si", $html, $match);
+        if($match && $match[1]){
+            return ["success" => true , "id" => $match[1]];
+        }
+
+        return ["success" => false , "message" => "{$url} is not a valid YouTube channel URL"];
+    }
 
     /**
      * Constrcut Data from search list to array
@@ -63,18 +73,27 @@ class YoutubeController
      * @param string $channelName
      * @return array
      */
-   public function fetchData($channelName)
+   public function fetchData($channel)
    {
         
+        $channelArray = $this->parseChannelId($channel);
+        
+        // Check if Link is a valid url
+        if(!$channelArray['success']){
+            return $channelArray;
+        }
+
+
         $optParams = [
-        'part' => 'snippet',
-        //   'channelId'=> $query
+            'part' => 'snippet',
+            'maxResults' => 1000,
+            'channelId'=> $channelArray['id']
         ];
 
-        $searchResult =  $this->service->search->listSearch($channelName, $optParams);
+        $searchResult =  $this->service->search->listSearch('', $optParams);
 
 
-        return $this->constructData($searchResult);
+        return ['success' => true , 'data' => $this->constructData($searchResult)];
     }
 
     /**
