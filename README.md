@@ -19,18 +19,23 @@
 - Initialize Plugin
 - Extend MVC file to Plugin
 - Create Video Post Type
-
+- Fetch Videos
+- Add Admin Page for Youtube video Importing
 
 
 ## Enhancement
 
 - Check If Framework is installed
+- Support Link Or channel Id or channel Name in Search Box
+- Add Style
+- Display Video on table by Title , picture and description +  Style
 
 
 ## Waiting Tasks
 
 - Fetch Youtube Search from channel / User
-- Add Admin Page for Youtube video Importing
-- Select Videos list
 - Save Each video as post type
 - Display Post on Frontend
+
+
+## I've exceeded  my quota in Google API
