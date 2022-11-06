@@ -26,6 +26,7 @@
 - Support Link in Search Box
 - Fetch Youtube Search from channel / User
 - Display Video on table by Title , picture and description +  Style
+- Display Post on Frontend
 
 
 ## Enhancement
@@ -34,13 +35,6 @@
 - Save API key in safe place
 - Try to Save Post Type using Model
 - Use Dynamic Prefix
-
-
-## Waiting Tasks
-
-- Display Post on Frontend
-
-
 
 ## Notice
 
