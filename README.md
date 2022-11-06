@@ -29,6 +29,7 @@
 - Support Link Or channel Id or channel Name in Search Box
 - Add Style
 - Display Video on table by Title , picture and description +  Style
+- Save API key in safe place
 
 
 ## Waiting Tasks
