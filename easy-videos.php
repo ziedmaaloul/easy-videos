@@ -44,7 +44,9 @@ if (!defined('EASY_VIDEOS_AUTOLOAD_APP')) {
 
 // Run vendor autoloader
 if (!defined('EASY_VIDEOS_AUTO_LOADER')) {
-    require '../typerocket-v5/typerocket/vendor/autoload.php';
+    // Require Two Vendors , Vendor of Framework and Vendor of current plugin for custom packages
+    require realpath(dirname(realpath(__DIR__)).'/typerocket-v5/typerocket/vendor/autoload.php');
+    require realpath(__DIR__.'/vendor/autoload.php');
 } else {
     call_user_func(EASY_VIDEOS_AUTO_LOADER);
 }
@@ -66,6 +68,8 @@ if (! EASY_VIDEOS_SKIP_INIT) {
     ApplicationKernel::init();
 }
 
+
+define('TYPEROCKET_CORE_CONFIG_PATH',__DIR__. '/config' );
 
 // Start Plugin
 $pluginController = new PluginController();
