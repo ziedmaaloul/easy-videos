@@ -15,6 +15,9 @@ class PluginController
     protected $videoController = null;
 
 
+    /**
+     * Constructor
+     */
     public function __construct(){
         $this->youtubeController = new YoutubeController();
         $this->videoController = new VideoController();
@@ -22,13 +25,11 @@ class PluginController
 
     /**
      * Add Admin Page
+     * @return void
      */
 
     public function createAdminPage()
     {
-
-
-
 
         $returnArray = ['step' => 'default'];
 
@@ -64,11 +65,13 @@ class PluginController
             if($youtubeIds ){
                 $videosImported = $this->youtubeController->getVideoChoosedList($youtubeIds); // Return video detail list from API
 
-                // Data will be saved here
+                // Save Video to database
 
                 foreach ($videosImported as $video){
                     $this->videoController->save($video);
                 }
+
+                $returnArray = ['step' => 'default' , "success" =>  1 , "message" => "Video Imported"];
                 
             } 
         } 
@@ -84,12 +87,6 @@ class PluginController
     public function createPostType()
     {
 
-        $upperPlural = 'Videos';
-        $upperSingular = 'Video';
-        $lowerSingular = 'video';
-        $pluralLower = 'videos';
-
-
         // Create Video post Type and set only for Admin
         $easyVideo = tr_post_type('Video')
                     ->setAdminOnly()
@@ -98,7 +95,6 @@ class PluginController
                     ->setSlug('video')
                     ->setArchivePostsPerPage(-1)
                     ->setArgument( 'public', true)
-                    // ->register()
                     ->setEditorForm(function(){
                         $form = tr_form()->setGroup('details');
                         echo $form->image('Video Picture');

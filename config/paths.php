@@ -48,7 +48,7 @@ return [
     | The PATH were resources can be found.
     |
     */
-    'resources' => TYPEROCKET_ALT_PATH . '/resources',
+    'resources' => EASY_VIDEOS_PATH . '/resources',
 
     /*
     |--------------------------------------------------------------------------
@@ -58,7 +58,7 @@ return [
     | The PATH were front-end views can be found.
     |
     */
-    'views' => TYPEROCKET_ALT_PATH . '/resources/views',
+    'views' => EASY_VIDEOS_PATH . '/resources/views',
 
     /*
     |--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ return [
     | TypeRocket as root.
     |
     */
-    'routes' => TYPEROCKET_ALT_PATH . '/routes',
+    'routes' => EASY_VIDEOS_PATH . '/routes',
 
     /*
     |--------------------------------------------------------------------------

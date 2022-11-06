@@ -71,6 +71,8 @@ if (! EASY_VIDEOS_SKIP_INIT) {
 
 define('TYPEROCKET_CORE_CONFIG_PATH',__DIR__. '/config' );
 
+
+
 // Start Plugin
 $pluginController = new PluginController();
 $pluginController->createPostType();
