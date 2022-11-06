@@ -29,7 +29,7 @@ class VideoController extends WPPostController
             'post_title' => $video['title'],
             'post_status' => 'publish',
             'comment_status' => 'close',
-            'post_name' =>  $video['title'],
+            'post_name' =>  sanitize_title($video['title']),
             'post_type' => 'video',
             'post_date' => $currentDate,
             'post_date_gmt' => $currentDate,
