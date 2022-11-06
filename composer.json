@@ -1,8 +1,5 @@
 {
     "require": {
         "google/apiclient": "^2.12",
-        "symfony/debug": "^4.4",
-        "symfony/error-handler": "^5.4",
-        "kint-php/kint": "^4.2"
     }
 }
