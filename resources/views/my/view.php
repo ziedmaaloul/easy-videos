@@ -48,8 +48,8 @@ if($step =='choose'){  ?>
                     <tr>
                     <th scope="col">Select</th>
                     <th scope="col">Picture</th>
-                    <th scope="col">VideoId</th>
                     <th scope="col">Title</th>
+                    <th scope="col">VideoId</th>
                     </tr>
                 </thead>
                 <tbody>
