@@ -31,32 +31,41 @@ function custom_echo($string, $length = 50)
 	<div class="container text-center">
 			<div class="row">
 
-			<?php foreach($posts as $post){
-				$postMeta = get_post_meta( $post->ID, 'details', true );
-				$link = get_site_url().'/video/'.$post->post_name;
-				?>
 
-				<div class="col-md-4">
+			<?php 
+			
+			if($posts){
 
-
-
-				<div class="card">
-					<a href="<?= $link; ?>">
-					<img src="<?= $postMeta['video_picture']; ?>" class="card-img-top" alt="<?= $post->post_title; ?>">
-					</a>
-					<div class="card-body">
-						<h5 class="card-title"><?= $post->post_title; ?></h5>
-						<p class="card-text"><?= custom_echo($post->post_content); ?></p>
-						<a href="<?= $link; ?>" class="btn btn-primary">Watch Video</a>
+				foreach($posts as $post){
+					$postMeta = get_post_meta( $post->ID, 'details', true );
+					$link = get_site_url().'/video/'.$post->post_name;
+					?>
+	
+					<div class="col-md-4">
+	
+	
+	
+					<div class="card">
+						<a href="<?= $link; ?>">
+						<img src="<?= $postMeta['video_picture']; ?>" class="card-img-top" alt="<?= $post->post_title; ?>">
+						</a>
+						<div class="card-body">
+							<h5 class="card-title"><?= $post->post_title; ?></h5>
+							<p class="card-text"><?= custom_echo($post->post_content); ?></p>
+							<a href="<?= $link; ?>" class="btn btn-primary">Watch Video</a>
+						</div>
 					</div>
-				</div>
-
-
-
-				
-				</div>
-
-				<?php }?>
+	
+	
+	
+					
+					</div>
+	
+					<?php }
+			} else {
+				echo '<h1> No Video Found </h1>';
+			} ?>
+			
 			</div>
 	</div>
 </div>

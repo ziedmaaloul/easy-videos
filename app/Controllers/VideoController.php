@@ -69,9 +69,14 @@ class VideoController extends WPPostController
 
     }
 
+    /**
+     * Render Page : Render Videos or Single Video to Front-end
+     * @param string|null $slug
+     */
     
     public function renderPage(string $slug = null)
     {
+        $frontTitle = 'Video Imported List';
         $view = 'single.videos';
         $args = array(
         'post_type'   => 'video',
@@ -84,8 +89,16 @@ class VideoController extends WPPostController
             $view = 'single.video';
         }
 
+
         $my_posts = get_posts($args);
 
-        return tr_view($view , ['posts' => $my_posts]);
+        if($slug && !$my_posts){
+            header('Location: /404');
+        }
+        
+        if($slug && $my_posts){
+            $frontTitle = $my_posts[0]->post_title;
+        }
+        return tr_view($view , ['posts' => $my_posts])->setTitle($frontTitle);
     }
 }
