@@ -109,6 +109,24 @@ class PluginController
 
         // Call Page Creator Action 
 
+
+        // Start Force User to Add his API KEY 
+        
+        global $pagenow;
+        $admin_pages = [ 'index.php', 'plugins.php' , 'edit.php' ];
+        if ( in_array( $pagenow, $admin_pages )  && !typerocket_env('GOOGLE_API_KEY')) {
+                echo '
+                <div class="notice notice-error">
+                    <p>To use Import Video From Youtube using Easy Videos Plugins ,
+                     Please Add This Line To your wp_settings.php
+                     </p><br>'."
+                     define( 'GOOGLE_API_KEY', 'xxxxxxxxxxxx' );".'
+                    <br> Be sure to replace xxxxxxxxxxxx by your GOOGLE API KEY
+                </div>';
+
+                return;
+        }
+        
         $this->createAdminPage();
        
     }

@@ -30,7 +30,7 @@ if(!file_exists( realpath(dirname(realpath(__DIR__)).'/typerocket-v5/typerocket-
 	$admin_pages = [ 'index.php', 'plugins.php' ];
     if ( in_array( $pagenow, $admin_pages ) ) {
             echo '
-            <div class="notice notice-error is-dismissible">
+            <div class="notice notice-error">
                 <p>To use Easy Videos Plugins , You must install and activate <a href="https://typerocket.com/downloads/v5.zip">TypeRocket v5 Plugin</a>  , Please Check <a href="https://typerocket.com/docs/v5/install-via-plugin/" target="_blanc">Documentation</a></p>
             </div>
             ';

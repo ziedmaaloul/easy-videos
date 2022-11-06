@@ -15,7 +15,7 @@ class YoutubeController
     public function __construct(){
         $this->client = new Client();
         $this->client->setApplicationName("Youtube_Importer");
-        $this->client->setDeveloperKey("AIzaSyBAQu9nDuLhgPdmxTmtpZzyrLqil5OxfkI");
+        $this->client->setDeveloperKey(typerocket_env('GOOGLE_API_KEY'));
         $this->service = new Youtube($this->client);
     }
 
