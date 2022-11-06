@@ -20,6 +20,7 @@
 - Extend MVC file to Plugin
 - Create Video Post Type
 - Fetch Videos
+- Save Each video as post type
 - Add Admin Page for Youtube video Importing
 
 
@@ -30,13 +31,18 @@
 - Add Style
 - Display Video on table by Title , picture and description +  Style
 - Save API key in safe place
+- Try to Save Post Type using Model
+- Use Dynamic Prefix
 
 
 ## Waiting Tasks
 
 - Fetch Youtube Search from channel / User
-- Save Each video as post type
 - Display Post on Frontend
 
 
-## I've exceeded  my quota in Google API
+
+## Notice
+
+- I've exceeded  my quota in Google API
+- Save Post Type Using Model return Framework Bug => I Think Bug in Framework
