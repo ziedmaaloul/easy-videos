@@ -47,7 +47,7 @@ return [
     | Require TypeRocket on the front-end.
     |
     */
-    'frontend' => false,
+    'frontend' => true,
 
     /*
     |--------------------------------------------------------------------------

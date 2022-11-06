@@ -83,9 +83,22 @@ class PluginController
      */
     public function createPostType()
     {
+
+        $upperPlural = 'Videos';
+        $upperSingular = 'Video';
+        $lowerSingular = 'video';
+        $pluralLower = 'videos';
+
+
         // Create Video post Type and set only for Admin
         $easyVideo = tr_post_type('Video')
                     ->setAdminOnly()
+                    ->setIcon('dashicons-format-video')
+                    ->setId('video')
+                    ->setSlug('video')
+                    ->setArchivePostsPerPage(-1)
+                    ->setArgument( 'public', true)
+                    // ->register()
                     ->setEditorForm(function(){
                         $form = tr_form()->setGroup('details');
                         echo $form->image('Video Picture');
@@ -93,6 +106,8 @@ class PluginController
                         echo $form->text('published At');
                         echo $form->text('channel Name');
                     });
+                    
+                    
 
         // Call Page Creator Action 
 
