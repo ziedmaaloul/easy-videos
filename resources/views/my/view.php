@@ -18,7 +18,7 @@ function displayYoutubeLinkForm(){
                     <input type="hidden" value="1" name="checker"/>
                     <div class="mb-3">
                             <label for="youtubeChannel" class="form-label">Youtube Channel</label>
-                            <input type="text"value="LinusTechTips" name="youtubeLink"  class="form-control" id="youtubeChannel" placeholder="Youtube Channel">
+                            <input type="text"value="https://www.youtube.com/c/LinusTechTips/videos" name="youtubeLink"  class="form-control" id="youtubeChannel" placeholder="Youtube Channel">
                     </div>
                     <button type="submit" class="btn btn-primary"> Fetch Videos ...</button>
                 </form>
