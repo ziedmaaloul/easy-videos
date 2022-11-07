@@ -19,14 +19,26 @@ use  \App\Controllers\PluginController;
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  */
 
- // Define EASY_VIDEOS_PATH
+// Initialisation
+add_action('admin_init', function() {
+    global $pagenow;
+    if ( $pagenow == 'admin.php' ) {
+        // Import JS and Css Files
+        wp_enqueue_style( 'bootstrap-styles', "https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css");
+        wp_enqueue_script( 'jquery-script', "https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js");
+        wp_enqueue_script( 'ajax-script', site_url().'/'.EASY_VIDEOS_URL."/resources/assets/js/ajax.js");
+    }
+});
+
+ // Define EASY_VIDEOS_PATH And URL
 define('EASY_VIDEOS_PATH', __DIR__);
+define('EASY_VIDEOS_URL', 'wp-content/plugins/easy-videos');
 
 // Start Check if Plugin is active
 
 if(!file_exists( realpath(dirname(realpath(__DIR__)).'/typerocket-v5/typerocket-v5.php'))){
     // Rocket not installed
-    global $pagenow;
+    
 	$admin_pages = [ 'index.php', 'plugins.php' ];
     if ( in_array( $pagenow, $admin_pages ) ) {
             echo '
@@ -39,11 +51,18 @@ if(!file_exists( realpath(dirname(realpath(__DIR__)).'/typerocket-v5/typerocket-
 }
 // End Check if Plugin is active
     
-// Define Constants
+// Define Resources Constants
 if(!defined('EASY_VIDEOS_RESOURCES_PATH')){
-    define('EASY_VIDEOS_RESOURCES_PATH', EASY_VIDEOS_PATH.'/resources/view');
+    define('EASY_VIDEOS_RESOURCES_PATH', EASY_VIDEOS_PATH.'/resources/views');
 }
 
+
+// Define Assets Constants
+if(!defined('EASY_VIDEOS_ASSETS_PATH')){
+    define('EASY_VIDEOS_ASSETS_PATH', EASY_VIDEOS_PATH.'/resources/assets');
+}
+
+// Define Application Name Space
 if (!defined('TYPEROCKET_APP_NAMESPACE')) {
     define('TYPEROCKET_APP_NAMESPACE', 'App');
 }

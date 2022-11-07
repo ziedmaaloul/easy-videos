@@ -7,6 +7,8 @@ class YoutubeController
 {
     protected $client = null;
     protected $service = null;
+    protected $type = 'video';
+    protected $maxResult = 15;
 
     /**
      * Constructor
@@ -69,6 +71,38 @@ class YoutubeController
     }
 
     /**
+     * Get Data From Youtube API
+     * pageToken is a pagination param , for first value is CAoQAA
+     * @param string $channelId
+     * @param string  $pageToken
+     * @return array
+     */
+    public function getDataFromYoutube($channelId , $pageToken = 'CAoQAA'){
+
+        $optParams = [
+            'part' => 'snippet',
+            'type' => $this->type,
+            'pageToken' =>  $pageToken,
+            'maxResults' => $this->maxResult,
+            'channelId'=> $channelId
+        ];
+
+        // Get response from Youtube API
+        $searchResult =  $this->service->search->listSearch('', $optParams);
+
+        // Check if video list has next pagination
+        $hasNext = false;
+
+        $pageInfo = isset($searchResult['pageInfo']) ? $searchResult['pageInfo'] : null;
+        $nextPageToken = isset($searchResult['nextPageToken']) ? $searchResult['nextPageToken'] : null;
+        if($pageInfo && $nextPageToken) {
+            $hasNext = true;
+        }
+
+        return ['success' => true , 'data' => $this->constructData($searchResult) , 'channelId' => $channelId , 'hasNext' => $hasNext , 'nextPageToken' => $nextPageToken];
+    }
+
+    /**
      * Fetch Data Function return Result List
      * @param string $channelName
      * @return array
@@ -84,16 +118,7 @@ class YoutubeController
         }
 
 
-        $optParams = [
-            'part' => 'snippet',
-            'maxResults' => 1000,
-            'channelId'=> $channelArray['id']
-        ];
-
-        $searchResult =  $this->service->search->listSearch('', $optParams);
-
-
-        return ['success' => true , 'data' => $this->constructData($searchResult)];
+        return $this->getDataFromYoutube($channelArray['id'] , 'CAoQAA');
     }
 
     /**

@@ -13,13 +13,22 @@ use \App\Controllers\VideoController;
 */
 
 
-
+// Route for All videos
 tr_route()->get()->on('video/*', function($arg) {  
     $video = new VideoController();
     return $video->renderPage($arg);
 });
 
+
+// Route for Single Video
 tr_route()->get()->on('video', function() {  
     $video = new VideoController();
     return $video->renderPage();
+});
+
+// Route for Pagination on search video
+
+tr_route()->post()->on('/fetch-more-videos', function() {  
+    $video = new VideoController();
+    return $video->fetchMore();
 });

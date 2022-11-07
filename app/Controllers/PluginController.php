@@ -51,7 +51,7 @@ class PluginController
                 $data = $this->youtubeController->fetchData($youtubeLink);
 
                 if($data["success"] && $data['data']){
-                    $returnArray = ['step' => 'choose' , "data" =>  $data['data']];
+                    $returnArray = ['step' => 'choose' , "data" =>  $data['data'] , 'channelId' => $data['channelId'] , 'hasNext' => $data['hasNext'] , "nextPageToken" => $data["nextPageToken"]];
                 } else if($data["success"] && !$data['data']) {
                     $returnArray = ['step' => 'youtubelink' , 'error' => 1 , 'message' => 'No result Found'];
                 } else {

@@ -1,7 +1,3 @@
-<!-- Import Bootstrap -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-
-
 <?php
 
 function displayMessage($message , $type = 'danger'){
@@ -53,19 +49,12 @@ if($step =='choose'){  ?>
                     </tr>
                 </thead>
                 <tbody>
-                    
-                    <?php foreach ($data as $item) { ?>
-                        <tr>
-                            <th scope="row"><input type="checkbox" value="<?= $item['videoId']; ?>" name="yt_id[]"/></th>
-                            <td><img src="<?= $item['thumbnails']; ?>"></td>
-                            <td><?= $item['title']; ?></td>
-                            <td><?= $item['videoId']; ?></td>
-                        </tr>        
-                     <?php   } ?>
+                    <?php include EASY_VIDEOS_RESOURCES_PATH."/partials/videoMultiple.php" ?>
+                    <?php include EASY_VIDEOS_RESOURCES_PATH."/partials/loadMoreButton.php" ?>
                 </tbody>
                 </table>
                 
-                <button type="submit" class="btn btn-primary"> Import ...</button>
+                <button type="submit" class="btn btn-primary btn-center"> Import ...</button>
             </form>
         </section>
 <?php } ?>

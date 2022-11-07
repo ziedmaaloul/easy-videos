@@ -4,12 +4,14 @@ namespace App\Controllers;
 use App\Models\Post;
 use App\Models\Video;
 use TypeRocket\Controllers\WPPostController;
+use App\Controllers\YoutubeController;
 
 class VideoController extends WPPostController
 {
     
     protected $video = null;
     protected $tablePrefix = null;
+    protected $youtubeController = null;
 
     /**
      * Constructor
@@ -17,6 +19,7 @@ class VideoController extends WPPostController
 
     public function __construct(){
         $this->video = new Video();
+        $this->youtubeController = new YoutubeController();
 
         // Get Database table Prefix
         global $wpdb;
@@ -95,10 +98,40 @@ class VideoController extends WPPostController
         if($slug && !$my_posts){
             header('Location: /404');
         }
-        
+
         if($slug && $my_posts){
             $frontTitle = $my_posts[0]->post_title;
         }
         return tr_view($view , ['posts' => $my_posts])->setTitle($frontTitle);
+    }
+
+
+    /**
+     * FetMore Action : Function to generate new video frm Pagination
+     * @return string
+     */
+
+    public function fetchMore()
+    {
+
+       
+       $checkIsAdmin = true; // Check if user is admin
+
+       if($checkIsAdmin){
+
+        $request = tr_request();
+
+        $channelId = $request->getInput('channelId');
+        $token = $request->getInput('token');
+
+        if(!$channelId || !$token){
+            header('Location: /404');
+        }
+
+
+        $resultData = $this->youtubeController->getDataFromYoutube($channelId , $token);
+
+        echo tr_view('my.viewAjaxResponse' , $resultData);
+       }
     }
 }
