@@ -95,6 +95,11 @@ class VideoController extends WPPostController
 
         $my_posts = get_posts($args);
 
+        // Redirect to login if user not connected
+        if(!is_user_logged_in()){
+            header('Location: /wp-login.php');
+        }
+
         if($slug && !$my_posts){
             header('Location: /404');
         }
