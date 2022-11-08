@@ -23,25 +23,73 @@ class PluginController
         $this->videoController = new VideoController();
     }
 
+
     /**
-     * Add Admin Page
-     * @return void
+     * Save Settings Action 
+     * @param Request $request
+     * @return array
+     */
+    public function saveSettings($request)
+    {
+        $responseArray = [];
+        $errorMessage = [];
+        $isVideoApiKey = $request->getInput('isVideoApiKey'); // Get Request
+        $googleApiKey = $request->getInput('googleApiKey'); // Get Request
+        $resultPerPage = $request->getInput('resultPerPage'); // Get Request
+
+        if($isVideoApiKey){
+
+            if(!$googleApiKey){
+                $errorMessage[] = 'Invalid Api Key';
+                $responseArray = ['error' => 1];
+            }
+
+            if(!$resultPerPage){
+                $errorMessage[] = 'Invalid Result per page Value';
+                $responseArray = ['error' => 1];
+            }
+        
+            if(!ctype_digit($resultPerPage)){
+                $errorMessage[] = 'Result per page Value Must be of type Digital';
+                $responseArray = ['error' => 1];
+            }
+        
+            if ($resultPerPage <= 0){
+                $errorMessage[] = 'Result per page Value Must be greater than 0';
+                $responseArray = ['error' => 1];
+            }
+
+            if(!isset($responseArray['error'])){
+
+                // If all tests passed , Update new settings values
+                $this->videoController->updateSettingsKeyValue('easy_video_google_api_key',$googleApiKey);
+                $this->videoController->updateSettingsKeyValue('easy_video_google_result_number',$resultPerPage);
+                $responseArray = ['success' => 1];
+            }
+
+            $responseArray['messages'] = $errorMessage;
+        }
+
+        return $responseArray;
+    }
+
+
+    /**
+     * Import Video Processing 
+     * @param Request $request
+     * @return array
      */
 
-    public function createAdminPage()
+    public function importVideoProcessing($request)
     {
 
         $returnArray = ['step' => 'default'];
-
-        $adminPage = tr_page('Video Importer', 'view', 'Video Importer' , ['capability' => 'administrator']);
-
-        $request = tr_request(); //Get Request
 
         $youtubeLinkSubmitted = $request->getInput('checker'); // Get Request
         $isVideoSelector = $request->getInput('isVideoSelector'); // Get Request
 
         if($youtubeLinkSubmitted){
-
+    
             $youtubeLink = $request->getInput('youtubeLink');
 
             if (!$youtubeLink){
@@ -78,8 +126,43 @@ class PluginController
             } 
         } 
 
-        $view = ViewTrait::viewRender('my.view' , $returnArray);
-        $adminPage->setView($view);
+        return $returnArray;
+    }
+
+    
+    /**
+     * Add Admin Page
+     * @return void
+     */
+
+    public function createAdminPage()
+    {
+        $request = tr_request(); //Get Request
+
+       
+        $settingsArray = $this->saveSettings($request);
+        $isAPIValid = $this->videoController->checkAndPrepareAPI();
+       
+        if(!$isAPIValid){
+            $settingsArray['validApi'] = false;
+            $viewConfig = ViewTrait::viewRender('my.api_config' , $settingsArray);
+            $addVideoConfigPage = tr_page('Video API Config' , 'apiconfig', 'Video API Config' ,  ['capability' => 'administrator']);
+            $addVideoConfigPage->setView($viewConfig);
+        } else {
+            $adminPage = tr_page('Video Importer', 'view', 'Video Importer' , ['capability' => 'administrator']);
+            // Check if ll test passed to Get requests and import Video process
+            $returnArray = $this->importVideoProcessing($request);
+    
+            $view = ViewTrait::viewRender('my.view' , $returnArray);
+            $adminPage->setView($view);
+            $isAPIValid['validApi'] = true;
+            $settingsArray = array_merge($settingsArray , $isAPIValid);
+            $addVideoConfigPage = tr_page('API Config' , 'apiconfig', 'API Config' ,  ['capability' => 'administrator']);
+            $viewConfig = ViewTrait::viewRender('my.api_config' , $settingsArray);
+            $addVideoConfigPage->setView($viewConfig);
+            $adminPage->addPage($addVideoConfigPage);
+        }
+        
     }
 
 
@@ -113,18 +196,18 @@ class PluginController
         // Start Force User to Add his API KEY 
         
         global $pagenow;
-        $admin_pages = [ 'index.php', 'plugins.php' , 'edit.php' ];
+        $admin_pages = [ 'index.php', 'plugins.php' , 'edit.php'];
         if ( in_array( $pagenow, $admin_pages )  && !typerocket_env('GOOGLE_API_KEY')) {
-                echo '
-                <div class="notice notice-error">
-                    <p>To use Import Video From Youtube using Easy Videos Plugins ,
-                     Please Add This Line To your wp_settings.php
-                     </p><br>'."
-                     define( 'GOOGLE_API_KEY', 'xxxxxxxxxxxx' );".'
-                    <br> Be sure to replace xxxxxxxxxxxx by your GOOGLE API KEY
-                </div>';
-
-                return;
+                $isAPIValid = $this->videoController->checkAndPrepareAPI();
+                if(!$isAPIValid){
+                    echo '
+                    <div class="notice notice-error">
+                        <p>To use Import Video From Youtube using Easy Videos Plugins ,
+                         Please Add Your Google API Key and Result per page.
+                         <a href="/wp-admin/admin.php?page=video_api_config_apiconfig">Go To</a>
+                    </div>';
+                }
+               
         }
         
         $this->createAdminPage();

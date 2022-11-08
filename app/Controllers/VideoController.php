@@ -134,4 +134,67 @@ class VideoController extends WPPostController
         echo tr_view('my.viewAjaxResponse' , $resultData);
        }
     }
+
+
+    /**
+     * Check or Prepare Config API
+     * Return GOOGLE API KEY And Results Number
+     * @return array
+     */
+
+    public function checkAndPrepareAPI()
+    {
+        $result = false;
+        $sqlArray = [];
+        $query = tr_query()->table($this->tablePrefix.'options');
+        $apiKeyOption = $query->select('option_value')->where('option_name' , 'easy_video_google_api_key')->first();
+        $query = tr_query()->table($this->tablePrefix.'options');
+        $resultNumberOption = $query->select('option_value')->where('option_name' , 'easy_video_google_result_number')->first();
+
+        // If value not exist Create a new One
+        if(!$apiKeyOption){
+            $query = tr_query()->table($this->tablePrefix.'options');
+            $query->setIdColumn('option_id')->create([
+                'option_name' => 'easy_video_google_api_key',
+                'option_value' => ''
+            ]);
+        }
+
+        // If value not exist Create a new One
+        if(!$resultNumberOption){
+            $query = tr_query()->table($this->tablePrefix.'options');
+            $query->setIdColumn('option_id')->create([
+                'option_name' => 'easy_video_google_result_number',
+                'option_value' => ''
+            ]);
+        }
+
+
+        if(!$apiKeyOption || !$resultNumberOption){
+            return false;
+        }
+
+        if($apiKeyOption['option_value'] == null || $apiKeyOption['option_value'] == '' || !$apiKeyOption['option_value'] ||
+        $resultNumberOption['option_value'] == null || $resultNumberOption['option_value'] == '' || !$resultNumberOption['option_value']){
+            return false;
+        }
+
+        // If All tests Passed return values
+        return ['easy_video_google_api_key' => $apiKeyOption['option_value'] , 'easy_video_google_result_number' => $resultNumberOption['option_value']];
+    }
+
+
+    /**
+     * updateSettingsKeyValue Action
+     * Update into database Each API Settings Option
+     */
+    public function updateSettingsKeyValue($key,$value)
+    {
+        $query = tr_query()->table($this->tablePrefix.'options');
+        $query->select('*')->where('option_name' ,$key)->first();
+        $query->update([
+            'option_value' => $value
+        ]);
+    }
+
 }

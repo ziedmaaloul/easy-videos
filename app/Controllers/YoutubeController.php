@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controllers;
+use \App\Controllers\VideoController;
 use \Google\Client;
 use \Google\Service\Youtube;
 class YoutubeController
@@ -8,7 +9,9 @@ class YoutubeController
     protected $client = null;
     protected $service = null;
     protected $type = 'video';
-    protected $maxResult = 15;
+    protected $maxResult = 0;
+    protected $videoController = null;
+    
 
     /**
      * Constructor
@@ -16,8 +19,15 @@ class YoutubeController
 
     public function __construct(){
         $this->client = new Client();
+    }
+
+    public function getApiValues()
+    {
+        $this->videoController = new VideoController();
+        $apiValues = $this->videoController->checkAndPrepareAPI();
+        $this->maxResult = (int) $apiValues['easy_video_google_result_number'];
         $this->client->setApplicationName("Youtube_Importer");
-        $this->client->setDeveloperKey(typerocket_env('GOOGLE_API_KEY'));
+        $this->client->setDeveloperKey($apiValues['easy_video_google_api_key']);
         $this->service = new Youtube($this->client);
     }
 
@@ -79,6 +89,7 @@ class YoutubeController
      */
     public function getDataFromYoutube($channelId , $pageToken = 'CAoQAA'){
 
+        $this->getApiValues();
         $optParams = [
             'part' => 'snippet',
             'type' => $this->type,
@@ -128,6 +139,7 @@ class YoutubeController
      */
     public function getVideoChoosedList(array $youtubeIds)
     {
+        $this->getApiValues();
         if (!$youtubeIds){
             return [];
         }
