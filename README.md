@@ -31,15 +31,16 @@
 - Check If Framework is installed
 - Save API key in safe place
 - Add paginations
+- Run Wordpress by Docker
 
 ## Enhancement
 
-- Try to Save Post Type using Model
 - Add Control if UI is Active Or Activate UI Automatic
 - Set the number of result page in Configuration place
+- Set Api key and page number in other place (add new coinfiguration page)
 
 ## Waiting
-- Docker Image
+
 - Watch Video and vidoe List only for connected user
 
 ## Notice
@@ -58,7 +59,18 @@
 ```sh
 define( 'GOOGLE_API_KEY', 'xxxxxxxxxxxx' );
 ```
-- Enjoy :) 
+- Enjoy :-) 
+
+## Run Using Docker
+
+- [Download](https://typerocket.com/downloads/v5.zip) TypeRocket Plugin and extract zip file
+- Set the path of Typerocket Extension in docker-compose.yml in the section of wordpress->volumes Volume 2 (# TypeRocket Extension)
+- You can Update the physical path of wordpress installation in docker-compose.yml of wordpress->volumes Volume 3
+- You can add also Your theme and other custom extension by adding new volumes
+- Run docker-compose up
+- Wordpress Link will be => [http://localhost:8080](http://localhost:8080)
+- PhpMyAdmin Link will be => [http://localhost:8081](http://localhost:8081)
+- Enjoy :-)
 
 ## Routes
 
