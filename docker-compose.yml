@@ -4,19 +4,19 @@ services:
     image: mysql:5.7
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: MyR00tMySQLPa$$5w0rD
-      MYSQL_DATABASE: MyWordPressDatabaseName
-      MYSQL_USER: MyWordPressUser
-      MYSQL_PASSWORD: Pa$$5w0rD
+      MYSQL_ROOT_PASSWORD: MyR00tMySQLeasyVideoPassword
+      MYSQL_DATABASE: easy_video_database
+      MYSQL_USER: easy_video_user
+      MYSQL_PASSWORD: easyVideoPassword
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
     restart: always
     environment:
       PMA_HOST: db
-      PMA_USER: MyWordPressUser
-      PMA_PASSWORD: Pa$$5w0rD
+      PMA_USER: easy_video_user
+      PMA_PASSWORD: easyVideoPassword
     ports:
-      - "8080:80"
+      - "8081:80"
   wordpress:
     depends_on:
       - db
@@ -26,15 +26,16 @@ services:
       - "8000:80"
     environment:
       WORDPRESS_DB_HOST: db:3306
-      WORDPRESS_DB_USER: MyWordPressUser
-      WORDPRESS_DB_PASSWORD: Pa$$5w0rD
-      WORDPRESS_DB_NAME: MyWordPressDatabaseName
+      WORDPRESS_DB_USER: easy_video_user
+      WORDPRESS_DB_PASSWORD: easyVideoPassword
+      WORDPRESS_DB_NAME: easy_video_database
     volumes:
-      - "./:/var/www/html/wp-content/plugins/easy-videos"
-      - "../typerocket-v5:/var/www/html/wp-content/plugins/typerocket-v5" #Download it from https://typerocket.com/downloads/v5.zip 
+      - "./:/var/www/html/wp-content/plugins/easy-videos"                 # (Volume 1 )Easy Video Extension
+      - "../typerocket-v5:/var/www/html/wp-content/plugins/typerocket-v5" # (Volume 2) TypeRocket Extension
+                                                                          #Download it from https://typerocket.com/downloads/v5.zip 
                                                                           #and unzip it  for typerocket Framework , You need to extract
                                                                           # it and set his path herer 
-      - "../public:/var/www/html"
+      - "../public:/var/www/html"                                         # (Volume 3) Physical path
       #- "path/for/themes:/var/www/html/wp-content/themes"
 volumes:
   mysql: {}
