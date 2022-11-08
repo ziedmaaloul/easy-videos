@@ -32,15 +32,8 @@
 - Save API key in safe place
 - Add paginations
 - Run Wordpress by Docker
-
-## Enhancement
-
-- Add Control if UI is Active Or Activate UI Automatic
 - Set the number of result page in Configuration place
 - Set Api key and page number in other place (add new coinfiguration page)
-
-## Waiting
-
 - Watch Video and vidoe List only for connected user
 
 ## Notice
@@ -54,11 +47,6 @@
 
 - Install TypeRocket Plugin : [Download Here](https://typerocket.com/downloads/v5.zip) , And check [Documentation](https://typerocket.com/docs/v5/install-via-plugin/)
 - run composer install in this directory in server or run it and upload vendor folder
-- Add Your Google API Key to wp_settings.php file (replace xxx by your API KEY)
-- Result Per page of pagination is in YoutubeController
-```sh
-define( 'GOOGLE_API_KEY', 'xxxxxxxxxxxx' );
-```
 - Enjoy :-) 
 
 ## Run Using Docker
@@ -77,3 +65,5 @@ define( 'GOOGLE_API_KEY', 'xxxxxxxxxxxx' );
 - [List of video On Front-End](http://wordpress.local/video/)
 - [Import Video](http://wordpress.local/wp-admin/admin.php?page=video_importer_view)
 - [Video Post Type](http://wordpress.local/wp-admin/edit.php?post_type=video)
+
+## END OF PROJECT
