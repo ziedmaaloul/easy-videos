@@ -5,13 +5,13 @@ use  \App\Controllers\PluginController;
 
 /**
  * Plugin Name: Easy Videos
- * Plugin URI: http://www.heimdal.com
+ * Plugin URI: http://www.example.com
  * Plugin Prefix: easy_videos
  * Plugin ID: easy-videos
  * Description: Easy Videos Importer
  * Version: 1.0.0
  * Author: Zied Maaloul
- * Author URI: http://www.heimdal.com
+ * Author URI: http://www.example.com
  * Text Domain: Import Videos from Youtube
  * Domain Path: languages
  * Domain Var: PLUGIN_TD
